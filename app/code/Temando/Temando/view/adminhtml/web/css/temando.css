@@ -1,0 +1,12 @@
+.back-order-product {
+    border: 1px solid red;
+}
+.a-left {
+    text-align:left !important;
+}
+.a-right {
+    text-align:right !important;
+}
+.a-center {
+    text-align:center !important;
+}

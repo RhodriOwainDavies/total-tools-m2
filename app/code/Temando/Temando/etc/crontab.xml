@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Cron:etc/crontab.xsd">
+    <group id="temando_inventory_import"> <!-- Doesn't need to be unique -->
+        <job name="temando_inventoryimport" instance="Temando\Temando\Cron\Inventory" method="execute">
+            <schedule>* * * * *</schedule>
+        </job>
+    </group>
+
+    <group id="default">
+        <job name="temando_report" instance="Temando\Temando\Cron\Report" method="execute">
+            <schedule>0 2 * * *</schedule>
+        </job>
+    </group>
+</config>

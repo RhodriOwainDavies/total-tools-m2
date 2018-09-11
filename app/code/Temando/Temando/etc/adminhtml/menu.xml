@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../Backend/etc/menu.xsd">
+    <menu>
+        <!--
+        <add id="Temando_Temando::temando" title="Temando" module="Temando_Temando" sortOrder="70" dependsOnModule="Temando_Temando" resource="Temando_Temando::temando"/>
+        
+        <add id="Temando_Temando::shipping_method" title="Shipping Methods" module="Temando_Temando" sortOrder="40" parent="Temando_Temando::temando1" action="admin/system_config/edit/section/carriers/" resource="Temando_Temando::shipping_method" />
+        <add id="Temando_Temando::manage_shipments" title="Manage Shipments" module="Temando_Temando" sortOrder="10" parent="Temando_Temando::temando1" resource="Temando_Temando::manage_shipments" />
+        <add id="Temando_Temando::manage_manifests" title="Manage Manifests" module="Temando_Temando" sortOrder="20" parent="Temando_Temando::temando1" resource="Temando_Temando::manage_manifests" />
+        <add id="Temando_Temando::temando_settings" title="Temando Settings" module="Temando_Temando" sortOrder="30" parent="Temando_Temando::temando1" resource="Temando_Temando::temando_settings" />
+        <add id="Temando_Temando::temando1" title="Inventory" module="Temando_Temando" sortOrder="10" parent="Temando_Temando::temando" dependsOnModule="Temando_Temando" resource="Temando_Temando::temando"/>
+-->
+
+            <add id="Temando_Temando::temando" title="Temando" module="Temando_Temando" sortOrder="15" dependsOnModule="Temando_Temando" resource="Temando_Temando::temando"/>
+
+            <add id="Temando_Temando::temando_shipments" title="Shipments" module="Temando_Temando" sortOrder="10" dependsOnModule="Temando_Temando" resource="Temando_Temando::temando" parent="Temando_Temando::temando"/>
+                <add id="Temando_Temando::temando_shipment_list" title="Shipments" module="Temando_Temando" sortOrder="10" parent="Temando_Temando::temando_shipments" action="temando/shipment" resource="Temando_Temando::temando_shipments"/>
+                <add id="Temando_Temando::temando_pickup_list" title="Store Pickups" module="Temando_Temando" sortOrder="11" parent="Temando_Temando::temando_shipments" action="temando/pickup" resource="Temando_Temando::temando_pickups"/>
+                <!-- add id="Temando_Temando::temando_shipment_collections" title="Collections" module="Temando_Temando" sortOrder="20" parent="Temando_Temando::temando_shipments" action="temando/temando/collections" resource="Temando_Temando::temando_collections"/>
+                <add id="Temando_Temando::temando_shipment_manifest" title="Manifests" module="Temando_Temando" sortOrder="30" parent="Temando_Temando::temando_shipments" action="temando/temando/orders" resource="Temando_Temando::temando_shipments"/ -->
+                <!--add id="Temando_Temando::temando_shipping_options_list" title="Shipping Options" module="Temando_Temando" sortOrder="10" parent="Temando_Temando::temando_shipments" action="temando/shipments/shippingoptions" resource="Temando_Temando::temando_shipping_options"/-->
+
+
+
+
+            <add id="Temando_Temando::temando_locations" title="Locations" module="Temando_Temando" sortOrder="20" dependsOnModule="Temando_Temando" resource="Temando_Temando::temando" parent="Temando_Temando::temando"/>
+                <add id="Temando_Temando::temando_locations_origins" title="Stores" module="Temando_Temando" sortOrder="10" parent="Temando_Temando::temando_locations" resource="Temando_Temando::temando_locations_origins" action="temando/origin"/>
+                <add id="Temando_Temando::temando_locations_zones" title="Zones" module="Temando_Temando" sortOrder="20" parent="Temando_Temando::temando_locations"  resource="Temando_Temando::temando_locations_zones" action="temando/zone"/>
+                <add id="Temando_Temando::temando_locations_schedule" title="Schedules" module="Magestore_Storepickup" sortOrder="30" resource="Magestore_Storepickup::schedule" parent="Temando_Temando::temando_locations" action="storepickupadmin/schedule"/>
+                <add id="Temando_Temando::temando_holiday" title="Holidays" sortOrder="40" resource="Magestore_Storepickup::holiday" parent="Temando_Temando::temando_locations" action="storepickupadmin/holiday" module="Magestore_Storepickup"/>
+                <add id="Temando_Temando::temando_specialday" title="Special Days" sortOrder="50" resource="Magestore_Storepickup::specialday" parent="Temando_Temando::temando_locations" action="storepickupadmin/specialday" module="Magestore_Storepickup"/>
+
+            <!-- add id="Temando_Temando::temando_rule_engine" title="Rule Engine" module="Temando_Temando" sortOrder="30" dependsOnModule="Temando_Temando" resource="Temando_Temando::temando" parent="Temando_Temando::temando"/>
+                <add id="Temando_Temando::temando_rules" title="Manage Rules" module="Temando_Temando" sortOrder="10" parent="Temando_Temando::temando_rule_engine" resource="Temando_Temando::temando_rules" action="temando/rules"/ -->
+
+            <!-- add id="Temando_Temando::temando_packaging" title="Packaging" module="Temando_Temando" sortOrder="40" dependsOnModule="Temando_Temando" resource="Temando_Temando::temando" parent="Temando_Temando::temando"/>
+                <add id="Temando_Temando::temando_packaging_packages" title="Packages" module="Temando_Temando" sortOrder="10" parent="Temando_Temando::temando_packaging" action="temando/temando/orders" resource="Temando_Temando::temando_shipments"/ -->
+
+            <!-- add id="Temando_Temando::temando_config" title="Configuration Settings" module="Temando_Temando" sortOrder="50" dependsOnModule="Temando_Temando" resource="Temando_Temando::temando" parent="Temando_Temando::temando"/>
+                <add id="Temando_Temando::temando_config_settings" title="Temando Setting" module="Temando_Temando" sortOrder="10" parent="Temando_Temando::temando_config" action="system_config/edit/section/carriers" resource="Temando_Temando::temando_shipments"/>
+
+                <add id="Temando_Temando::temando_config_shippingmethodsa" title="Shipping Methods A" module="Magento_Shipping" sortOrder="20" parent="Temando_Temando::temando_config" action="system_config/section/carriers" resource="Magento_Shipping::carriers"/>
+
+                <add id="Temando_Temando::temando_config_shippingmethodsb" title="Shipping Methods B" module="Temando_Temando" sortOrder="20" parent="Temando_Temando::temando_config" action="system_config/section/carriers" resource="Magento_Shipping::carriers"/ -->
+        <add id="Temando_Temando::temando_rules" title="Shipping Rules" module="Temando_Temando" sortOrder="30" dependsOnModule="Temando_Temando" resource="Temando_Temando::temando" parent="Temando_Temando::temando"/>
+            <add id="Temando_Temando::shipping_rules" title="Manage Rules" module="Temando_Temando" parent="Temando_Temando::temando_rules" action="temando/rule" resource="Temando_Temando::shipping_rules" sortOrder="10"/>
+
+        <add id="Temando_Temando::temando_configuration" title="Configuration" module="Temando_Temando" sortOrder="90" dependsOnModule="Temando_Temando" resource="Temando_Temando::temando" parent="Temando_Temando::temando"/>
+            <add id="Temando_Temando::shipping_methods" title="Shipping Methods" module="Temando_Temando" parent="Temando_Temando::temando_configuration" action="adminhtml/system_config/edit/section/carriers" resource="Temando_Temando::shipping_methods" sortOrder="10"/>
+            <add id="Temando_Temando::temando_settings" title="Temando Settings" module="Temando_Temando" parent="Temando_Temando::temando_configuration" action="adminhtml/system_config/edit/section/temando" resource="Temando_Temando::settings" sortOrder="20"/>
+            <add id="Temando_Temando::storepickup_settings" title="Store Pickup Settings" module="Magestore_Storepickup" parent="Temando_Temando::temando_configuration" action="adminhtml/system_config/edit/section/storepickup" resource="Magestore_Storepickup::settings" sortOrder="30"/>
+        <!-- remove all menu item from Magestore_Storepickup -->
+        <remove id="Magestore_Storepickup::storepickup" />
+        <remove id="Magestore_Storepickup::store" />
+        <remove id="Magestore_Storepickup::tag" />
+        <remove id="Magestore_Storepickup::schedule" />
+        <remove id="Magestore_Storepickup::holiday" />
+        <remove id="Magestore_Storepickup::specialday" />
+        <remove id="Magestore_Storepickup::guide" />
+        <remove id="Magestore_Storepickup::settings" />
+    </menu>
+</config>

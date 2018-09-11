@@ -1,0 +1,224 @@
+<?php
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+?>
+<?php /** @var $block \Temando\Temando\Block\Adminhtml\Shipment\View */ ?>
+<?php $_shipment = $block->getShipment() ?>
+<?php $_origin = $_shipment->getOrigin() ?>
+<?php $_order = $_shipment->getOrder() ?>
+<?php $_helper = $block->getHelper() ?>
+<?php $origin = $_helper->getOriginOptionArray() ?>
+<?php $shipmentItems = $_shipment->getAllItems() ?>
+<?php $quotes = $_shipment->getQuotes() ?>
+<?php $boxes = $_shipment->getBoxes() ?>
+
+<section class="admin__page-section order-view-account-information">
+    <div class="admin__page-section-title">
+        <span class="title"><?php /* @escapeNotVerified */ echo __('Shipment Information') ?></span>
+    </div>
+    <div class="admin__page-section-content">
+        <div class="admin__page-section-item order-information">
+            <div class="admin__page-section-item-title">
+                <span class="title">
+                    <?php echo __('Status'); ?>
+                </span>
+            </div>
+            <div class="admin__page-section-item-content">
+                <table class="admin__table-secondary order-information-table">
+                    <tr>
+                        <th><?php /* @escapeNotVerified */ echo __('Shipment Date') ?></th>
+                        <td><?php /* @escapeNotVerified */ echo date('d-m-Y') ?></td>
+                    </tr>
+                    <tr>
+                        <th><?php /* @escapeNotVerified */ echo __('Order Ref') ?></th>
+                        <td><span><?php /* @escapeNotVerified */ echo $_order->getIncrementId() ?></span></td>
+                    </tr>
+                    <tr>
+                        <th><?php /* @escapeNotVerified */ echo __('Order Created') ?></th>
+                        <td><span><?php /* @escapeNotVerified */ echo $_order->getCreatedAt() ?></span></td>
+                    </tr>
+                    <tr>
+                        <th><?php /* @escapeNotVerified */ echo __('Shipping Description') ?></th>
+                        <td><span><?php /* @escapeNotVerified */ echo $_order->getShippingDescription() ?></span></td>
+                    </tr>
+                    <tr>
+                        <th><?php /* @escapeNotVerified */ echo __('Customer selected quote description') ?></th>
+                        <td><span><?php /* @escapeNotVerified */ echo $_shipment->getCustomerSelectedQuoteDescription() ?></span></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="admin__page-section-item order-account-information">
+            <?php /* Destination / Origin Information */?>
+            <?php /* @escapeNotVerified */ echo $block->getForm() ?>
+        </div>
+    </div>
+</section>
+
+<section class="admin__page-section">
+    <div class="admin__page-section-title">
+        <span class="title"><?php /* @escapeNotVerified */ echo __('Items Ordered') ?></span>
+    </div>
+    <div class="admin__page-section-content">
+        <div class="admin__page-section-item">
+            <table class="admin__table-secondary">
+                <thead>
+                <tr>
+                    <th><?php echo __('Product') ?></th>
+                    <th><?php echo __('SKU') ?></th>
+                    <th><?php echo __('Qty') ?></th>
+                    <th><?php echo __('Article Value (' . $block->getStoreCurrencyCode()) . ')' ?></th>
+                    <th><?php echo __('Availability Code') ?></th>
+                    <th><?php echo __('Fragile') ?></th>
+                    <th><?php echo __('Dangerous') ?></th>
+                    <th><?php echo __('Weight') ?></th>
+                    <th><?php echo __('Length') ?></th>
+                    <th><?php echo __('Width') ?></th>
+                    <th><?php echo __('Height') ?></th>
+                </tr>
+                </thead>
+                <tbody>
+                <?php if(count($shipmentItems)): ?>
+                    <?php foreach($shipmentItems AS $item):?>
+                        <?php
+
+                            $product = $_helper->getCatalogProduct($item);
+                            if ($product) :
+                                $className = "";
+                                if ($item->getStatus() == \Temando\Temando\Model\System\Config\Source\Shipment\Status::BACK_ORDER) {
+                                    $className = "back-order-product";
+                                }
+                                ?>
+                        <tr class="<?php echo $className;?>">
+                            <td><?php echo $product->getName() ?></td>
+                            <td><?php echo $item->getSku() ?></td>
+                            <td><?php echo __('Ordered') . ': ' . $item->getQtyOrdered() ?></td>
+                            <td><?php echo $_helper->getCurrentCurrencySymbol() . ' ' . $_helper->formatPrice($product->getPrice()) ?></td>
+                            <td><?php echo $product->getAttributeText('stock_availability_code'); ?></td>
+                            <td><?php echo $product->getShippingFragile() ? 'Yes' : 'No'; ?></td>
+                            <td><?php echo $product->getShippingDangerous() ? 'Yes' : 'No'; ?></td>
+                            <td><?php echo sprintf('%.2f', $_helper->getItemWeight($product)) . ' ' . $_helper->getWeightUnitText(); ?></td>
+                            <td><?php echo sprintf('%.2f', $_helper->getItemLength($product))  . ' ' . $_helper->getMeasureUnitText(); ?></td>
+                            <td><?php echo sprintf('%.2f', $_helper->getItemWidth($product))  . ' ' . $_helper->getMeasureUnitText(); ?></td>
+                            <td><?php echo sprintf('%.2f', $_helper->getItemHeight($product))  . ' ' . $_helper->getMeasureUnitText(); ?></td>
+                        </tr>
+                        <?php else : ?>
+                        <tr>
+                            <td colspan="11"><?php echo __("A product with this sku '%1' no longer exists", $item->getSku());?></td>
+                        </tr>
+                        <?php endif; ?>
+
+                    <?php endforeach;?>
+                <?php endif; ?>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</section>
+
+<section class="admin__page-section">
+    <div class="admin__page-section-title">
+        <span class="title"><?php /* @escapeNotVerified */ echo __('Boxes to ship') ?></span>
+    </div>
+    <div class="admin__page-section-content">
+        <div class="admin__page-section-item">
+            <table class="admin__table-secondary">
+                <thead>
+                <tr>
+                    <th><?php echo __('Comment') ?></th>
+                    <!-- th><?php echo __('Packaging') ?></th -->
+                    <th><?php echo __('Fragile') ?></th>
+                    <th><?php echo __('Dangerous') ?></th>
+                    <th><?php echo __('Qty') ?></th>
+                    <th><?php echo __('Value') ?></th>
+                    <th><?php echo __('Weight') ?></th>
+                    <th><?php echo __('Length') ?></th>
+                    <th><?php echo __('Width') ?></th>
+                    <th><?php echo __('Height') ?></th>
+                </tr>
+                </thead>
+                <tbody>
+                <?php foreach($boxes AS $box):?>
+                    <tr>
+                        <td><?php echo $box->getComment() ?></td>
+                        <!-- td><?php echo $box->getPackaging() ?></td -->
+                        <td><?php echo $box->getFragile() ? 'Yes' : 'No'; ?></td>
+                        <td><?php echo $box->getDangerous() ? 'Yes' : 'No'; ?></td>
+                        <td><?php echo $box->getQty(); ?></td>
+                        <td><?php echo $_helper->getCurrentCurrencySymbol() . ' ' . $_helper->formatPrice($box->getValue()) ?></td>
+                        <td><?php echo sprintf('%.2f', $box->getWeight()) . ' ' . $_helper->getWeightUnitText(); ?></td>
+                        <td><?php echo sprintf('%.2f', $box->getLength()) . ' ' . $_helper->getMeasureUnitText(); ?></td>
+                        <td><?php echo sprintf('%.2f', $box->getWidth()) . ' ' . $_helper->getMeasureUnitText(); ?></td>
+                        <td><?php echo sprintf('%.2f', $box->getHeight()) . ' ' . $_helper->getMeasureUnitText(); ?></td>
+                    </tr>
+                <?php endforeach;?>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</section>
+
+<section class="admin__page-section">
+    <div class="admin__page-section-title">
+        <span class="title"><?php /* @escapeNotVerified */ echo __('Shipping Quotes') ?></span>
+    </div>
+    <div class="admin__page-section-content">
+        <div class="admin__page-section-item">
+            <table class="admin__table-secondary">
+                <thead>
+                <tr>
+                    <th><?php echo __('Carrier') ?></th>
+                    <th><?php echo __('Delivery Method') ?></th>
+                    <th><?php echo __('ETA') ?></th>
+                    <th><?php echo __('Notes'); ?></th>
+                    <th><?php echo __('Cost') ?></th>
+
+                </tr>
+                </thead>
+                <tbody>
+                <?php if(count($quotes)): ?>
+                    <?php foreach($quotes AS $quote):?>
+                        <?php
+                        if (
+                        $_helper->_isAllowedAction('Temando_Temando::temando_shipments_view_all_quotes')
+                        ||
+                        ($_shipment->getCustomerSelectedQuoteId()==$quote->getId())
+                        ) :
+                        $carrier = $_helper->getCarrierByTemandoId($quote->getCarrierId()); ?>
+                            <tr>
+                                <td><?php echo $carrier->getCompanyName(); ?></td>
+                                <td><?php echo $quote->getDeliveryMethod(); ?></td>
+                                <td><?php echo $quote->getEtaDescription(); ?></td>
+                                <td>
+                                    <?php
+                                    if($_shipment->getCustomerSelectedQuoteId()==$quote->getId()){
+                                        echo __('Customer Selected Quote');
+                                    }
+                                    ?>
+                                </td>
+                                <td><?php echo $_helper->getCurrentCurrencySymbol() . ' ' . $_helper->formatPrice($quote->getTotalPrice()); ?></td>
+                            </tr>
+                        <?php endif; ?>
+                    <?php endforeach; ?>
+                <?php endif;?>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+<script type="text/x-magento-init">
+    {
+        "#edit_form": {
+            "Temando_Temando/js/autocomplete/autocomplete" : {}
+        }
+    }
+</script>

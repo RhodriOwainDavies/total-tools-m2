@@ -1,0 +1,157 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Magento\Quote\Model\ShippingMethodManagement" type="Temando\Temando\Model\Shipping\ShippingMethodManagement" />
+    <preference for="Magento\Quote\Model\Quote\Address" type="Temando\Temando\Model\Preference\AdditionalRequestAddressFields" />
+
+    <!-- RULE -->
+    <preference for="Temando\Temando\Api\Data\RuleInterface" type="Temando\Temando\Model\Rule" />
+    <virtualType name="RuleGridDataProvider" type="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider">
+        <arguments>
+            <argument name="collection" xsi:type="object" shared="false">Temando\Temando\Model\Resource\Rule\Grid\Collection</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Temando\Temando\Model\ResourceModel\Rule\Grid\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">temando_rule</argument>
+            <argument name="resourceModel" xsi:type="string">Temando\Temando\Model\ResourceModel\Rule</argument>
+        </arguments>
+    </virtualType>
+    
+    <type name="Temando\Temando\Model\Resource\Rule\Grid\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">temando_rule</argument>
+            <argument name="eventPrefix" xsi:type="string">temando_rule</argument>
+            <argument name="eventObject" xsi:type="string">temando_rule</argument>
+            <argument name="resourceModel" xsi:type="string">Temando\Temando\Model\ResourceModel\Rule</argument>
+        </arguments>
+    </type>
+    
+    <!-- ZONE -->
+    <preference for="Temando\Temando\Api\Data\ZoneInterface" type="Temando\Temando\Model\Zone" />
+    <virtualType name="ZoneGridDataProvider" type="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider">
+        <arguments>
+            <argument name="collection" xsi:type="object" shared="false">Temando\Temando\Model\Resource\Zone\Grid\Collection</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Temando\Temando\Model\ResourceModel\Zone\Grid\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">temando_zone</argument>
+            <argument name="resourceModel" xsi:type="string">Temando\Temando\Model\ResourceModel\Zone</argument>
+        </arguments>
+    </virtualType>
+    
+    <type name="Temando\Temando\Model\Resource\Zone\Grid\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">temando_zone</argument>
+            <argument name="eventPrefix" xsi:type="string">temando_zone</argument>
+            <argument name="eventObject" xsi:type="string">temando_zone</argument>
+            <argument name="resourceModel" xsi:type="string">Temando\Temando\Model\ResourceModel\Zone</argument>
+        </arguments>
+    </type>
+
+    <!-- ORIGIN -->
+    <type name="Magestore\Storepickup\Helper\Data">
+        <plugin name="Magestoredata" type="\Temando\Temando\Helper\Magestoredata" />
+    </type>
+    <preference for="Magestore\Storepickup\Block\Wrapper" type="Temando\Temando\Block\Wrapper" />
+    <preference for="Temando\Temando\Api\Data\OriginInterface" type="Temando\Temando\Model\Origin" />
+    <virtualType name="OriginGridDataProvider" type="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider">
+        <arguments>
+            <argument name="collection" xsi:type="object" shared="false">Temando\Temando\Model\ResourceModel\Origin\Grid\Collection</argument>
+            <!-- argument name="filterPool" xsi:type="object" shared="false">OriginGridFilterPool</argument -->
+        </arguments>
+    </virtualType>
+   
+    <type name="Temando\Temando\Model\Resource\Origin\Grid\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">temando_origin</argument>
+            <argument name="eventPrefix" xsi:type="string">temando_origin</argument>
+            <argument name="eventObject" xsi:type="string">temando_origin</argument>
+            <argument name="resourceModel" xsi:type="string">Temando\Temando\Model\ResourceModel\Origin</argument>
+        </arguments>
+    </type>
+
+    <!-- SHIPMENT -->
+    <preference for="Temando\Temando\Api\Data\ShipmentInterface" type="Temando\Temando\Model\Shipment" />
+    <virtualType name="ShipmentGridDataProvider" type="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider">
+        <arguments>
+            <argument name="collection" xsi:type="object" shared="false">Temando\Temando\Model\ResourceModel\Shipment\Grid\Collection</argument>
+        </arguments>
+    </virtualType>
+
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="temando_shipment_listing_data_source" xsi:type="string">Temando\Temando\Model\Resource\Shipment\Grid\Collection</item>
+                <item name="temando_pickup_listing_data_source" xsi:type="string">Temando\Temando\Model\Resource\Pickup\Grid\Collection</item>
+                <item name="temando_rule_listing_data_source" xsi:type="string">Temando\Temando\Model\ResourceModel\Rule\Grid\Collection</item>
+                <item name="temando_origin_listing_data_source" xsi:type="string">Temando\Temando\Model\Resource\Origin\Grid\Collection</item>
+                <item name="temando_zone_listing_data_source" xsi:type="string">Temando\Temando\Model\ResourceModel\Zone\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Temando\Temando\Model\Resource\Shipment\Grid\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">temando_shipment</argument>
+            <argument name="eventPrefix" xsi:type="string">temando_shipment</argument>
+            <argument name="eventObject" xsi:type="string">temando_shipment</argument>
+            <argument name="resourceModel" xsi:type="string">Temando\Temando\Model\ResourceModel\Shipment</argument>
+        </arguments>
+    </type>
+
+    <!-- PICKUP -->
+    <preference for="Temando\Temando\Api\Data\PickupInterface" type="Temando\Temando\Model\Pickup" />
+    <virtualType name="PickupGridDataProvider" type="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider">
+        <arguments>
+            <argument name="collection" xsi:type="object" shared="false">Temando\Temando\Model\ResourceModel\Pickup\Grid\Collection</argument>
+        </arguments>
+    </virtualType>
+
+    <type name="Temando\Temando\Model\Resource\Pickup\Grid\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">temando_pickup</argument>
+            <argument name="eventPrefix" xsi:type="string">temando_pickup</argument>
+            <argument name="eventObject" xsi:type="string">temando_pickup</argument>
+            <argument name="resourceModel" xsi:type="string">Temando\Temando\Model\ResourceModel\Pickup</argument>
+        </arguments>
+    </type>
+    <!-- remove all Magestore pickup acl resource -->
+    <type name="Magento\Integration\Helper\Data">
+        <plugin name="acl-intergration-data" type="Temando\Temando\Plugin\Integration\Data" sortOrder="100" />
+    </type>
+    <!-- Overwrite Magestore / Storepickup / Model / Carrier / Method --> 
+    <preference for="Magestore\Storepickup\Model\Carrier\Method" type="Temando\Temando\Model\Carrier\Method" />
+    <preference for="Magestore\Storepickup\Model\Config\Source\Paymentmethods" type="Temando\Temando\Model\Config\Source\Paymentmethods" />
+    
+    <!-- Temando Inventory Import Cron log -->
+    <type name="Temando\Temando\Logger\Inventory\Handler">
+        <arguments>
+            <argument name="filesystem" xsi:type="object">Magento\Framework\Filesystem\Driver\File</argument>
+        </arguments>
+    </type>
+    <type name="Temando\Temando\Logger\Inventory\Logger">
+        <arguments>
+            <argument name="name" xsi:type="string">cronLogger</argument>
+            <argument name="handlers"  xsi:type="array">
+                <item name="debug" xsi:type="object">Temando\Temando\Logger\Inventory\Handler</item>
+            </argument>
+        </arguments>
+    </type>
+    
+    <!-- General Temando debug log -->
+    <type name="Temando\Temando\Logger\General\Handler">
+        <arguments>
+            <argument name="filesystem" xsi:type="object">Magento\Framework\Filesystem\Driver\File</argument>
+        </arguments>
+    </type>
+    <type name="Temando\Temando\Logger\General\Logger">
+        <arguments>
+            <argument name="name" xsi:type="string">temandoLogger</argument>
+            <argument name="handlers"  xsi:type="array">
+                <item name="debug" xsi:type="object">Temando\Temando\Logger\General\Handler</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <preference for="Magento\Framework\Mail\Template\TransportBuilder" type="Temando\Temando\Mail\Template\TransportBuilder" />
+</config>

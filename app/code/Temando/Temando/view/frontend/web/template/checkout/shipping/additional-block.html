@@ -1,0 +1,7 @@
+<div id="checkout-shipping-additional-block" data-bind="foreach: shippingAdditionalMessage">
+    <div class="message shipping-additional-message" data-bind="css: $data.type, visible: $data.message.length > 0">
+        <!-- ko foreach: $data.message -->
+        <div data-bind="text: $data"></div>
+        <!-- /ko -->
+    </div>
+</div>

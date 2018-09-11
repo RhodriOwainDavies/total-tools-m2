@@ -1,0 +1,142 @@
+<?php
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+?>
+<?php /** @var $block \Temando\Temando\Block\Adminhtml\Pickup\Edit */ ?>
+<?php $_pickup = $block->getPickup() ?>
+<?php $_origin = $_pickup->getOrigin() ?>
+<?php $_order = $_pickup->getOrder() ?>
+<?php $_helper = $block->getHelper() ?>
+<?php $origin = $_helper->getOriginOptionArray() ?>
+<?php $orderItems = $_order->getAllVisibleItems();//getItems()
+
+?>
+<?php $backOrderSkus = $_helper->getBackOrderSkus($_order, $_origin) ;?>
+    <section class="admin__page-section order-view-account-information">
+        <div class="admin__page-section-title">
+            <span class="title"><?php /* @escapeNotVerified */ echo __('Pickup Information') ?></span>
+        </div>
+        <div class="admin__page-section-content">
+            <div class="admin__page-section-item order-information">
+                <div class="admin__page-section-item-title">
+                <span class="title">
+                    <?php echo __('Pickup # %1', $_pickup->getId()); ?>
+                </span>
+                </div>
+                <div class="admin__page-section-item-content">
+                    <table class="admin__table-secondary order-information-table">
+                        <tr>
+                            <th><?php /* @escapeNotVerified */ echo __('Pickup Status') ?></th>
+                            <td><span id="order_status"><?php /* @escapeNotVerified */ echo $block->getPickupStatusText() ?></span></td>
+                        </tr>
+                        <tr>
+                            <th><?php /* @escapeNotVerified */ echo __('Order Ref') ?></th>
+                            <td><span><?php /* @escapeNotVerified */ echo $_order->getIncrementId() ?></span></td>
+                        </tr>
+                        <tr>
+                            <th><?php /* @escapeNotVerified */ echo __('Order Created') ?></th>
+                            <td><span><?php /* @escapeNotVerified */ echo $_order->getCreatedAt() ?></span></td>
+                        </tr>
+                        <tr>
+                            <th><?php /* @escapeNotVerified */ echo __('Collection Date Time') ?></th>
+                            <td><span><?php /* @escapeNotVerified */ echo $_order->getShippingDescription() ?></span></td>
+                        </tr>
+                        <tr>
+                            <th><?php /* @escapeNotVerified */ echo __('Ready Date') ?></th>
+                            <td><span><?php /* @escapeNotVerified */ echo $_pickup->getReadyDate() ?></span></td>
+                        </tr>
+                        <tr>
+                            <th><?php /* @escapeNotVerified */ echo __('Collected Date') ?></th>
+                            <td><span><?php /* @escapeNotVerified */ echo $_pickup->getCollectedDate() ?></span></td>
+                        </tr>
+                        <tr>
+                            <th><?php /* @escapeNotVerified */ echo __('Customer Selected Store') ?></th>
+                            <td><span><?php /* @escapeNotVerified */ echo $_pickup->getCustomerSelectOrigin()->getName(); ?></span></td>
+                        </tr>
+                        
+                        <?php if(false)://if ($block->isSingleStoreMode() == false):?>
+                            <tr>
+                                <th><?php /* @escapeNotVerified */ echo __('Purchased From') ?></th>
+                                <td><?php /* @escapeNotVerified */ echo $block->getOrderStoreName() ?></td>
+                            </tr>
+                        <?php endif; ?>
+
+                    </table>
+                </div>
+                <hr/>
+            </div>
+            
+            <div class="admin__page-section-item order-account-information">
+                <?php /* Destination / Origin Information */?>
+                <?php /* @escapeNotVerified */ echo $block->getForm() ?>
+            </div>
+        </div>
+    </section>
+
+    <section class="admin__page-section">
+        <div class="admin__page-section-title">
+            <span class="title"><?php /* @escapeNotVerified */ echo __('Items Ordered') ?></span>
+        </div>
+        <div class="admin__page-section-content">
+            <div class="admin__page-section-item">
+                <table class="admin__table-secondary">
+                    <thead>
+                    <tr>
+                        <th><?php echo __('Product') ?></th>
+                        <th><?php echo __('SKU') ?></th>
+                        <th><?php echo __('Qty') ?></th>
+                        <th><?php echo __('Article Value') ?></th>
+                        <th><?php echo __('Availability Code') ?></th>
+                        <th><?php echo __('Fragile') ?></th>
+                        <th><?php echo __('Dangerous') ?></th>
+                        <th><?php echo __('Weight') ?></th>
+                        <th><?php echo __('Length') ?></th>
+                        <th><?php echo __('Width') ?></th>
+                        <th><?php echo __('Height') ?></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php if(count($orderItems)): ?>
+                        <?php foreach($orderItems AS $item):?>
+                            <?php 
+                                if($item->getProductType()=="configurable"){
+                                    $productOptions = $item->getProductOptions();
+                                    $simpleSku = $productOptions['simple_sku'];
+                                    $product = $block->getProductBySku($simpleSku);
+                                } else {
+                                    $product = $block->getProduct($item->getProductId());
+                                }
+                            ?>
+                            <?php if ($product) :
+                                $className = "";
+                                ?>
+                                <tr class="<?php echo $className;?>">
+                                <td><?php echo $item->getName() ?></td>
+                                <td><?php echo $item->getSku() ?></td>
+                                <td><?php echo __('Ordered') . ': ' . (int) $item->getQtyOrdered(); ?></td>
+                                <td><?php echo $_helper->getCurrentCurrencySymbol() . ' ' . $_helper->formatPrice($product->getPrice()) ?></td>
+                                <td><?php echo $product->getAttributeText('stock_availability_code'); ?></td>
+                                <td><?php echo $product->getShippingFragile() ? 'Yes' : 'No'; ?></td>
+                                <td><?php echo $product->getShippingDangerous() ? 'Yes' : 'No'; ?></td>
+                                <td><?php echo sprintf('%.2f', $_helper->getItemWeight($product)) . ' ' . $_helper->getWeightUnitText(); ?></td>
+                                <td><?php echo sprintf('%.2f', $_helper->getItemLength($product))  . ' ' . $_helper->getMeasureUnitText(); ?></td>
+                                <td><?php echo sprintf('%.2f', $_helper->getItemWidth($product))  . ' ' . $_helper->getMeasureUnitText(); ?></td>
+                                <td><?php echo sprintf('%.2f', $_helper->getItemHeight($product))  . ' ' . $_helper->getMeasureUnitText(); ?></td>
+                            </tr>
+                            <?php else : ?>
+                                <tr>
+                                    <td colspan="11"><?php echo __("A product with this sku '%1' no longer exists", $item->getSku());?></td>
+                                </tr>
+                            <?php endif;?>
+                        <?php endforeach;?>
+                    <?php endif; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>

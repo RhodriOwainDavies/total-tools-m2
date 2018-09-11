@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ruleset name="Temando">
+    <exclude-pattern>vendor/</exclude-pattern>
+    <exclude-pattern>app/code/Magestore/</exclude-pattern>
+    <rule ref="PSR2">
+        <exclude name="PSR2.Methods.MethodDeclaration"/>
+        <exclude name="PSR2.Classes.PropertyDeclaration"/>
+    </rule>
+    <rule ref="Generic.Commenting" />
+</ruleset>

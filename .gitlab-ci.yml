@@ -1,0 +1,5 @@
+image: texthtml/phpcs:latest
+
+php_code_sniffer_coding_standards:
+  script:
+    - phpcs .

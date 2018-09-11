@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/Framework/Acl/etc/acl.xsd">
+    <acl>
+        <resources>
+            <resource id="Magento_Backend::admin">
+                <resource id="Magento_Backend::stores">
+                    <resource id="Magento_Backend::stores_settings">
+                        <resource id="Magento_Config::config">
+                            <resource id="Temando_Temando::config_temando" title="Temando Settings Section" sortOrder="6" />
+                        </resource>
+                    </resource>
+                </resource>
+                <resource id="Temando_Temando::temando" title="Temando Shipping" sortOrder="20">
+                    <resource id="Temando_Temando::temando_shipments" title="Manage Shipments" sortOrder="10">
+                        <resource id="Temando_Temando::temando_shipments_view"  title="View" sortOrder="10"/>
+                        <resource id="Temando_Temando::temando_shipments_edit_save"  title="Edit &amp; Save" sortOrder="20"/>
+                        <resource id="Temando_Temando::temando_shipments_process"  title="Process" sortOrder="30"/>
+                        <resource id="Temando_Temando::temando_shipments_book_externally"  title="Book Externally" sortOrder="40"/>
+                        <resource id="Temando_Temando::temando_shipments_view_all_quotes"  title="View All Quotes" sortOrder="50"/>
+                        <resource id="Temando_Temando::temando_shipments_cancel"  title="Cancel" sortOrder="60"/>
+                    </resource>
+                    <resource id="Temando_Temando::temando_pickups" title="Manage Store Pickups" sortOrder="15">
+                        <resource id="Temando_Temando::temando_pickups_view"  title="View" sortOrder="10"/>
+                        <resource id="Temando_Temando::temando_pickups_edit_save"  title="Edit &amp; Save" sortOrder="20"/>
+                        <resource id="Temando_Temando::temando_pickups_process"  title="Process" sortOrder="30"/>
+                        <resource id="Temando_Temando::temando_pickups_cancel"  title="Cancel" sortOrder="40"/>
+                    </resource>     
+                    <resource id="Temando_Temando::temando_locations" title="Manage Locations" sortOrder="20">
+                        <resource id="Temando_Temando::temando_locations_origins"  title="Manage Origins" sortOrder="40">
+                            <resource id="Temando_Temando::temando_locations_new_origin"  title="Add New Origin" sortOrder="10"/>
+                            <resource id="Temando_Temando::temando_locations_edit_origin"  title="View Origin Details" sortOrder="20"/>
+                            <resource id="Temando_Temando::temando_locations_save_origin"  title="Save Origin" sortOrder="30"/>
+                            <resource id="Temando_Temando::temando_locations_delete_origin"  title="Delete Origin" sortOrder="40"/>
+                        </resource>
+                        <resource id="Temando_Temando::temando_locations_zones"  title="Manage Zones" sortOrder="30">
+                            <resource id="Temando_Temando::temando_locations_new_zone"  title="Add New Zone" sortOrder="10"/>
+                            <resource id="Temando_Temando::temando_locations_edit_zone"  title="Edit Zone" sortOrder="20"/>
+                            <resource id="Temando_Temando::temando_locations_save_zone"  title="Save Zone" sortOrder="30"/>
+                            <resource id="Temando_Temando::temando_locations_delete_zone"  title="Delete Zone" sortOrder="40"/>
+                        </resource>  
+                    </resource>
+                    <resource id="Temando_Temando::temando_configuration" title="Temando Configuration" sortOrder="60">
+                            <resource id="Temando_Temando::temando_settings"  title="Temando Settings" sortOrder="10"/>
+                    </resource>
+                </resource>
+            </resource>
+        </resources>
+    </acl>
+</config>

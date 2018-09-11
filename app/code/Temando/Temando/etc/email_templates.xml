@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Email:etc/email_templates.xsd">
+    <template id="temando_notify_merchant_new_order_template" label="Notify merchant of new order allocated" file="merchant_new_order.html" type="html" module="Temando_Temando" area="frontend"/>
+    <template id="temando_notify_customer_pickup_ready_template" label="Notify customer pickup ready" file="customer_pickup_ready.html" type="html" module="Temando_Temando" area="frontend"/>
+    <template id="temando_report_template" label="shipment and storepickup report in 90 days" file="temando_report.html" type="html" module="Temando_Temando" area="frontend"/>
+</config>

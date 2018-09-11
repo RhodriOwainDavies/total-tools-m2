@@ -1,0 +1,28 @@
+<?php
+
+/**
+ * @category    Temando
+ * @package     Temando_Temando
+ */
+
+/** @var \Magestore\Storepickup\Block\ListStore\Pagination $block */
+?>
+<ul class="pagination">
+    <li data-first-page="1"
+        class="page-item <?php if($block->currentIsFirstPage()) : ?>disabled<?php endif; ?>"
+    ><span>&laquo;</span></li>
+    <?php if($block->hasPrevPage()) : ?>
+    <li data-page-id="<?php echo $block->getPrevPage() ?>"  class="page-item"><a><?php echo __('Prev') ?></a></li>
+    <?php endif; ?>
+    <?php for($page = $block->getMinPage(); $page <= $block->getMaxPage(); ++$page) : ?>
+        <li class="page-item <?php if($page == $block->getCurPage()) : ?>active<?php endif; ?>"
+            data-page-id="<?php echo $page  ?>"
+        ><a><?php echo $page?></a></li>
+    <?php endfor ?>
+    <?php if($block->hasNextPage()) : ?>
+        <li data-page-id="<?php echo $block->getNextPage() ?>" class="page-item"><a><?php echo __('Next') ?></a></li>
+    <?php endif; ?>
+    <li data-last-page="<?php echo $block->getTotalPage(); ?>"
+        class="page-item <?php if($block->currentIsLastPage()) : ?>disabled<?php endif; ?>"
+    ><a>&raquo;</a></li>
+</ul>

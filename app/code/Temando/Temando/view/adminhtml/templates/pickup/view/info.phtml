@@ -1,0 +1,224 @@
+<?php
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+?>
+<?php /** @var $block \Temando\Temando\Block\Adminhtml\Pickup\View */ ?>
+<?php $_pickup = $block->getPickup() ?>
+<?php $_origin = $_pickup->getOrigin() ?>
+<?php $_order = $_pickup->getOrder() ?>
+<?php $_helper = $block->getHelper() ?>
+<?php $origin = $_helper->getOriginOptionArray() ?>
+<?php $orderItems = $_order->getAllVisibleItems();//getItems() ?>
+<?php $relativePdfPath = $_helper->getPickslipDir() . DIRECTORY_SEPARATOR . $_pickup->getPickslipFilename(); ?>
+
+<?php if ($_pickup->getStatus() >= \Temando\Temando\Model\System\Config\Source\Pickup\Status::PICKING): ?>
+<section class="admin__page-section">
+    <div class="admin__page-section-title">
+        <span class="title"><?php /* @escapeNotVerified */ echo __('Documents') ?></span>
+    </div>
+    <div class="admin__page-section-content">
+        <div class="admin__page-section-item">
+            <table class="admin__table-secondary">
+                <tbody>
+                <?php if (file_exists($relativePdfPath)) : ?>
+                    <tr>
+                        <td><?php echo __('Pickslip') ?></td>
+                        <td class="a-right">-</td>
+                        <td class="a-right">-</td>
+                        <td class="a-right">-</td>
+                        <td class="a-right">-</td>
+                        <td class="a-right"><a href="<?php echo $block->getUrl('*/pickslip', array('pickup' => $_pickup->getId())); ?>" target="_blank"><?php echo __('Download'); ?></a></td>
+                    </tr>
+                <?php elseif ($_pickup->getStatus() < \Temando\Temando\Model\System\Config\Source\Pickup\Status::COLLECTED) : ?>
+                    <?php
+                    $pickingUrl = $this->getUrl(
+                        'temando/pickup/status',
+                        array(
+                            'id' => $_pickup->getId(),
+                            'status' => \Temando\Temando\Model\System\Config\Source\Pickup\Status::PICKING
+                        )
+                    );
+                    ?>
+                    <tr>
+                        <td colspan="5"><?php echo __('There was a problem creating the Pickslip, please try again');?></td>
+                        <td class="a-right"><a href ="<?php echo $pickingUrl;?>"><?php echo __('Pickslip');?></a></td>
+                    </tr>
+                <?php endif; ?>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+<?php endif; ?>
+<section class="admin__page-section order-view-account-information">
+    <div class="admin__page-section-title">
+        <span class="title"><?php /* @escapeNotVerified */ echo __('Pickup Information') ?></span>
+    </div>
+    <div class="admin__page-section-content">
+        <div class="admin__page-section-item order-information">
+            <div class="admin__page-section-item-title">
+            <span class="title">
+                <?php echo __('Pickup # %1', $_pickup->getId()); ?>
+            </span>
+            </div>
+            <div class="admin__page-section-item-content">
+                <table class="admin__table-secondary order-information-table">
+                    <tr>
+                        <th><?php /* @escapeNotVerified */ echo __('Pickup Status') ?></th>
+                        <td><span id="order_status"><?php /* @escapeNotVerified */ echo $block->getPickupStatusText() ?></span></td>
+                    </tr>
+                    <tr>
+                        <th><?php /* @escapeNotVerified */ echo __('Order Ref') ?></th>
+                        <td><span><?php /* @escapeNotVerified */ echo $_order->getIncrementId() ?></span></td>
+                    </tr>
+                    <tr>
+                        <th><?php /* @escapeNotVerified */ echo __('Order Created') ?></th>
+                        <td><span><?php /* @escapeNotVerified */ echo $_order->getCreatedAt() ?></span></td>
+                    </tr>                 
+                    <tr>
+                        <th><?php /* @escapeNotVerified */ echo __('Collection Date Time') ?></th>
+                        <td><span><?php /* @escapeNotVerified */ echo $_order->getShippingDescription() ?></span></td>
+                    </tr>
+                    <tr>
+                        <th><?php /* @escapeNotVerified */ echo __('Ready Date') ?></th>
+                        <td><span><?php /* @escapeNotVerified */ echo $_pickup->getReadyDate() ?></span></td>
+                    </tr>
+                    <tr>
+                        <th><?php /* @escapeNotVerified */ echo __('Collected Date') ?></th>
+                        <td><span><?php /* @escapeNotVerified */ echo $_pickup->getCollectedDate() ?></span></td>
+                    </tr>
+                    <tr>
+                        <th><?php /* @escapeNotVerified */ echo __('Customer Selected Store') ?></th>
+                        <td><span><?php /* @escapeNotVerified */ echo $_pickup->getCustomerSelectOrigin()->getName(); ?></span></td>
+                    </tr>
+                </table>
+            </div>
+            <hr/>
+        </div>
+
+        <div class="admin__page-section-item order-account-information">
+            <!-- Billing / Origin Information -->
+            <div class="admin__page-section-item-title">
+                <span class="title"><?php /* @escapeNotVerified */ echo __('Customer Address') ?></span>
+            </div>
+            <address class="admin__page-section-item-content">
+                <table class="admin__table-secondary order-information-table">
+                    <tr>
+                        <th><span><?php echo __('Name')?></span></th>
+                        <td><span><?php echo $_pickup->getBillingContactName()?></span></td>
+                    </tr>
+                    <tr>
+                        <th><span><?php echo __('Company Name')?></span></th>
+                        <td><span><?php echo $_pickup->getBillingCompanyName()?></span></td>
+                    </tr>
+                    <tr>
+                        <th><span><?php echo __('Street Address')?></span></th>
+                        <td><span><?php echo $_pickup->getBillingStreet()?></span></td>
+                    </tr>
+                    <tr>
+                        <th><span><?php echo __('City')?></span></th>
+                        <td><span><?php echo $_pickup->getBillingCity()?></span></td>
+                    </tr>
+                    <tr>
+                        <th><span><?php echo __('Postcode')?></span></th>
+                        <td><span><?php echo $_pickup->getBillingPostcode()?></span></td>
+                    </tr>
+                    <tr>
+                        <th><span><?php echo __('Region')?></span></th>
+                        <td><span><?php echo $_pickup->getBillingRegion()?></span></td>
+                    </tr>
+                    <tr>
+                        <th><span><?php echo __('Country')?></span></th>
+                        <td><span><?php echo $_pickup->getBillingCountry()?></span></td>
+                    </tr>
+                    <tr>
+                        <th><span><?php echo __('Phone')?></span></th>
+                        <td><span><?php echo $_pickup->getBillingPhone()?></span></td>
+                    </tr>
+                    <tr>
+                        <th><span><?php echo __('Email')?></span></th>
+                        <td><span><?php echo $_pickup->getBillingEmail()?></span></td>
+                    </tr>
+                </table>
+            </address>
+            <hr/>
+            <div class="admin__page-section-item-title">
+                <span class="title"><?php /* @escapeNotVerified */ echo __('Origin') ?></span>
+            </div>
+            <table class="admin__table-secondary order-information-table">
+                <tr>
+                    <th><span><?php echo __('Store')?></span></th>
+                    <td><span><?php echo $origin[$_pickup->getOriginId()] ?></span></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</section>
+
+<section class="admin__page-section">
+    <div class="admin__page-section-title">
+        <span class="title"><?php /* @escapeNotVerified */ echo __('Items Ordered') ?></span>
+    </div>
+    <div class="admin__page-section-content">
+        <div class="admin__page-section-item">
+            <table class="admin__table-secondary">
+                <thead>
+                <tr>
+                    <th><?php echo __('Product') ?></th>
+                    <th><?php echo __('SKU') ?></th>
+                    <th><?php echo __('Qty') ?></th>
+                    <th><?php echo __('Article Value') ?></th>
+                    <th><?php echo __('Availability Code') ?></th>
+                    <th><?php echo __('Fragile') ?></th>
+                    <th><?php echo __('Dangerous') ?></th>
+                    <th><?php echo __('Weight') ?></th>
+                    <th><?php echo __('Length') ?></th>
+                    <th><?php echo __('Width') ?></th>
+                    <th><?php echo __('Height') ?></th>
+                </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    foreach($orderItems as $item):
+                        
+                        
+                        if($item->getProductType()=="configurable"){
+                            $productOptions = $item->getProductOptions();
+                            $simpleSku = $productOptions['simple_sku'];
+                            $product = $block->getProductBySku($simpleSku);
+                        } else {
+                            $product = $block->getProduct($item->getProductId());
+                        }
+
+                        if ($product) :
+                            $className = "";
+                            ?>
+                        <tr class="<?php echo $className;?>">
+                            <td><?php echo $item->getName() ?></td>
+                            <td><?php echo $item->getSku() ?></td>
+                            <td><?php echo __('Ordered') . ': ' . (int) $item->getQtyOrdered() ?></td>
+                            <td><?php echo $_helper->getCurrentCurrencySymbol() . ' ' . $_helper->formatPrice($product->getPrice()) ?></td>
+                            <td><?php echo $product->getAttributeText('stock_availability_code'); ?></td>
+                            <td><?php echo $product->getShippingFragile() ? 'Yes' : 'No'; ?></td>
+                            <td><?php echo $product->getShippingDangerous() ? 'Yes' : 'No'; ?></td>
+                            <td><?php echo sprintf('%.2f', $_helper->getItemWeight($product)) . ' ' . $_helper->getWeightUnitText(); ?></td>
+                            <td><?php echo sprintf('%.2f', $_helper->getItemLength($product))  . ' ' . $_helper->getMeasureUnitText(); ?></td>
+                            <td><?php echo sprintf('%.2f', $_helper->getItemWidth($product))  . ' ' . $_helper->getMeasureUnitText(); ?></td>
+                            <td><?php echo sprintf('%.2f', $_helper->getItemHeight($product))  . ' ' . $_helper->getMeasureUnitText(); ?></td>
+                        </tr>
+                        <?php else : ?>
+                        <tr>
+                            <td colspan="11"><?php echo __("A product with this sku '%1' no longer exists", $item->getSku());?></td>
+                        </tr>
+                        <?php endif;?>
+                    <?php endforeach;?>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="admin-2columns-left" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <update handle="editor"/>
+    <head>
+        <script src="Temando_Temando/js/rule/temando-rule.js" />
+        <css src="Magento_Catalog::web/catalog/category-selector.css" />
+    </head>
+    <body>
+        <referenceContainer name="content">
+            <block class="Temando\Temando\Block\Adminhtml\Rule\Edit" name="temando_rule_edit" />
+        </referenceContainer>
+        <referenceContainer name="left">
+            <block class="Temando\Temando\Block\Adminhtml\Rule\Edit\Tabs" name="rule_edit_tabs">
+                <block class="Temando\Temando\Block\Adminhtml\Rule\Edit\Tabs\General" name="rule_edit_tab_general" />
+                <block class="Temando\Temando\Block\Adminhtml\Rule\Edit\Tabs\Conditions" name="rule_edit_tab_conditions"/>
+                <block class="Temando\Temando\Block\Adminhtml\Rule\Edit\Tabs\Action" name="rule_edit_tab_action"/>
+            </block>
+        </referenceContainer>
+    </body>
+</page>

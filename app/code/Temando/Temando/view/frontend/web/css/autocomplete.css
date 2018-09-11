@@ -1,0 +1,14 @@
+
+#autocomplete-suggestion {
+    position: absolute; z-index: 9999; width: inherit; border: 1px solid #ccc; background: #fff; max-height: 300px; overflow-y: scroll;
+}
+
+#autocomplete-suggestion .location {
+    padding: 2px 5px; white-space: nowrap; overflow: hidden; display: block;
+}
+#autocomplete-suggestion .location:hover {
+    background: #eee;
+    cursor:pointer;
+}
+
+.avs-active { background: url("../images/ajax-s-load.gif") no-repeat scroll right center transparent !important; }

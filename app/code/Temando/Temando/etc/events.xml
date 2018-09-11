@@ -1,0 +1,9 @@
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="sales_order_save_commit_after">
+        <observer name="temando_temando_sales_order_save_commit_after" instance="Temando\Temando\Observer\SalesOrderCommitAfter" />
+    </event>
+    <!-- save origin before save -->
+    <event name="sales_order_save_before">
+        <observer name="StorepickupSaveShippingDecription" instance="Temando\Temando\Observer\SaveStorepickupDecription" />
+    </event>
+</config>

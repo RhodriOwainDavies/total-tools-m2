@@ -1,0 +1,21 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/*
+    Created on : 14/10/2016, 3:54:44 PM
+    Author     : root
+*/
+
+#autocomplete-suggestion {
+    position: absolute; z-index: 9999; width: inherit; border: 1px solid #ccc; background: #fff; max-height: 300px; overflow-y: scroll;
+}
+
+#autocomplete-suggestion .location {
+    padding: 2px 5px; white-space: nowrap; overflow: hidden; display: block;
+}
+#autocomplete-suggestion .location:hover {
+    background: #eee;
+    cursor:pointer;
+}

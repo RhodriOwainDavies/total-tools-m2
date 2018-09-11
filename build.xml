@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="temando/magento/codetesting" default="dev">    
+    <target name="dev" depends="coding-standards" description="Pre commit build check" />
+    <target name="cs" depends="coding-standards" />
+    <target name="coding-standards" description="Find coding standard violations">
+        <exec executable="vendor/bin/phpcs" failonerror="true">
+            <arg value="-p" />
+            <arg value="--standard=phpcs.xml" />
+            <arg value="--extensions=php,inc,js" />
+            <arg path="." />
+        </exec>
+    </target>
+</project>

@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="admin-2columns-left" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <update handle="editor"/>
+    <body>     
+        <referenceContainer name="left">
+            <block class="Temando\Temando\Block\Adminhtml\Specialday\Edit\Tabs" name="specialday_edit_tabs">
+                <block class="Magestore\Storepickup\Block\Adminhtml\Specialday\Edit\Tab\GeneralTab" name="specialday_edit_tab_general"/>
+            </block>
+        </referenceContainer>
+    </body> 
+</page>

@@ -1,0 +1,211 @@
+<?xml version="1.0"?>
+<config>
+    <system>
+        <!-- Remove some Magestore pickup configurations which are currently not used -->
+        <section id="storepickup">
+            <group id="general">
+                <field id="limit_image_gallery" showInDefault="0" showInWebsite="0" showInStore="0" />
+                <field id="list_store_page_size" showInDefault="0" showInWebsite="0" showInStore="0" />
+                <field id="enable_frontend" showInDefault="0" showInWebsite="0" showInStore="0" />
+                <field id="display_toplink" showInDefault="0" showInWebsite="0" showInStore="0" />
+                <field id="page_title" showInDefault="0" showInWebsite="0" showInStore="0" />
+                <field id="order_type" showInDefault="0" showInWebsite="0" showInStore="0" />
+                <field id="stock_level" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Stock level</label>
+                    <comment>Low stock if item quantity less than this number</comment>
+                    <validate>required-entry integer validate-greater-than-zero</validate>
+                </field>
+            </group>
+            <group id="service">                            
+                <field id="allow_facebook_comment" showInDefault="0" showInWebsite="0" showInStore="0" />
+                <field id="facebook_api_key" showInDefault="0" showInWebsite="0" showInStore="0" />
+                <field id="language_facebook" showInDefault="0" showInWebsite="0" showInStore="0" />
+            </group>
+            <group id="searching">
+                <field id="search_criteria" showInDefault="0" showInWebsite="0" showInStore="0" />
+            </group>
+        </section>
+        
+        <section id="temando" translate="label" type="text" sortOrder="325" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Temando Settings</label>
+            <tab>sales</tab>
+            <resource>Temando_Temando::config_temando</resource>
+            <group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>General</label>
+                <field id="sandbox" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Sandbox</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment><![CDATA[If set to "Yes", the sandbox (testing) service will be used (usually set to "No" on a live site)]]></comment>
+                </field>
+                <field id="client" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Client ID</label>
+                </field>
+                <field id="username" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Login ID</label>
+                </field>
+                <field id="password" translate="label" type="password" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Password</label>
+                </field>
+            </group>
+            <group id="options" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Options</label>
+                <field id="label_type" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Shipping Label Type</label>
+                    <source_model>Temando\Temando\Model\System\Config\Source\Labeltype</source_model>
+                </field>
+            </group>
+            <group id="units" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Units</label>
+                <field id="measure" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Measure Unit</label>
+                    <source_model>Temando\Temando\Model\System\Config\Source\Unit\Measure</source_model>
+                    <comment><![CDATA[The units used for product measurements]]></comment>
+                </field>
+                <field id="weight" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Weight Unit</label>
+                    <source_model>Temando\Temando\Model\System\Config\Source\Unit\Weight</source_model>
+                    <comment><![CDATA[The units used for product weights]]></comment>
+                </field>
+            </group>
+            <group id="notify_merchant_new_order" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Merchant notifications</label>
+                <field id="template" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Notify merchant of new order</label>
+                    <comment>Notify merchant when a new order is allocated to their store.</comment>
+                    <source_model>Magestore\Storepickup\Model\Config\Source\EmailTemplate</source_model>
+                </field>
+            </group>
+            <group id="notify_customer_pickup_ready" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Customer notifications</label>
+                <field id="template" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Notify customer pickup ready</label>
+                    <comment>Notify customer when their store pickup order is marked as Ready for Collection.</comment>
+                    <source_model>Magestore\Storepickup\Model\Config\Source\EmailTemplate</source_model>
+                </field>
+            </group>
+            <!-- group id="checkout" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Checkout Options</label>
+                <field id="delivery_options" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Show Delivery Options</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment><![CDATA[Show extra delivery options on checkout page?]]></comment>
+                </field>
+                <field id="location_type" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Destination Location Type</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment><![CDATA[Show Residence/Business toggle on checkout?]]></comment>
+                </field>
+                <field id="unattended_delivery" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Unattended Delivery</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+            </group -->
+            <group id="defaults" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Packaging</label>
+                <comment><![CDATA[Default values will be used for all products that do not have product specific dimensions & packaging information configured.]]></comment>
+                <field id="packaging" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Packaging</label>
+                    <source_model>Temando\Temando\Model\System\Config\Source\Shipment\Packaging</source_model>
+                </field>
+                <field id="fragile" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Fragile</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="dangerous" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Dangerous</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="weight" translate="label" type="text" sortOrder="35" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Weight</label>
+                </field>
+                <field id="length" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Length</label>
+                </field>
+                <field id="width" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Width</label>
+                </field>
+                <field id="height" translate="label" type="text" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Height</label>
+                    <comment><![CDATA[If unknown, then use 10x10x10]]></comment>
+                </field>
+            </group>
+            <group id="inventory" translate="label" type="text" sortOrder="90" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>Inventory Import</label>
+                <comment><![CDATA[Files placed in this folder with the csv extension will get imported.  The format of each row must be "origin_erp_id, sku, unit".  During processing the import file will be moved to the 'processing' sub-directory and an import.lock file will be created in this directory.  When the process is finished, the import.lock file should be deleted and the import file moved to the 'processed' subdirectory with an unique name.]]></comment>
+                <field id="directory" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Inventory import directory</label>
+                    <comment><![CDATA[Use absolute file system directory path without a trailing slash]]></comment>
+                </field>
+                <field id="days" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Keep processed files for how many days</label>
+                    <comment><![CDATA[Enter a whole number (default value is 7).  Can be increased during times of debugging or decreased to minimise disk usage.]]></comment>
+                </field>
+                <field id="execute_rows" translate="label" type="text" sortOrder="25" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Number of rows to execute at a time</label>
+                    <validate>required-entry validate-digits</validate>
+                    <comment><![CDATA[The number of rows to insert into the inventory database table in each single query. Please consider your database engine & settings, the size of CSV file(s) to import, frequency of cron job and any other risks before changing this value.]]></comment>
+                </field>
+                <field id="logs" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable Inventory Import log</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment><![CDATA[Log debug data to inventory-import.log.  Only enable this feature during debugging.]]></comment>
+                </field>
+            </group>
+            <group id="pickslip" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Pickslip</label>
+                <field id="abn" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>ABN</label>
+                </field>
+            </group>
+            <group id="report" translate="label" type="text" sortOrder="105" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Daily Temando Shipment and Storepickup Report</label>
+                <comment><![CDATA[These csv reports are sent to]]></comment>
+                <field id="name" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Name</label>
+                </field>
+                <field id="email" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Email</label>
+                </field>
+            </group>    
+            <group id="developer" translate="label" type="text" sortOrder="110" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Developer Logs</label>
+                <field id="logs" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable Developer log</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment><![CDATA[Save API request and response in debug log]]></comment>
+                </field>
+            </group>
+        </section>
+
+        <section id="carriers">
+            <group id="storepickup">
+                <field id="default_store" showInDefault="0" showInWebsite="0" showInStore="0" />
+            </group>
+            
+            <group id="temando" translate="label" type="text" sortOrder="99999" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Temando</label>
+                <field id="title" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Title</label>
+                    <comment><![CDATA[This will appear in the Carrier Title section of the Shipping Method.]]></comment>
+                </field>
+                <field id="active" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enabled</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="sallowspecific" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Ship to Applicable Countries</label>
+                    <frontend_class>shipping-applicable-country</frontend_class>
+                    <source_model>Magento\Shipping\Model\Config\Source\Allspecificcountries</source_model>
+                </field>
+                <field id="specificcountry" translate="label" type="multiselect" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Ship to Specific Countries</label>
+                    <source_model>Magento\Directory\Model\Config\Source\Country</source_model>
+                    <can_be_empty>1</can_be_empty>
+                </field>
+                <field id="specificerrmsg" translate="label" type="textarea" sortOrder="80" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Displayed Error Message</label>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

@@ -1,0 +1,19 @@
+{
+    "name": "temando/magento/codetesting",
+    "description": "Temando Code Standard Testing",
+    "homepage": "https://temando.com",
+    "type": "project",
+    "license": "proprietary",
+    "require": {
+        "php": ">=5.3.3"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "4.*",
+        "sebastian/phpcpd": "2.*",
+        "squizlabs/php_codesniffer": "2.8.1",
+        "pdepend/pdepend": "1.*",
+        "sensiolabs/security-checker": "1.*"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

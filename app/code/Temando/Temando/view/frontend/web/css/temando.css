@@ -1,0 +1,7 @@
+legend {
+    font-size: 1.4rem;
+}
+.storepickup-wrapper .list-store .store-item .btn-link, .storepickup-wrapper .map-box-container .store-item .btn-link {
+    font-weight: normal;
+    cursor: pointer;
+}

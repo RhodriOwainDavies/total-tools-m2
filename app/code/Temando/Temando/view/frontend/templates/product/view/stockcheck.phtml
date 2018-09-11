@@ -1,0 +1,13 @@
+<div>
+    <input type="text" name="postcode" id="stock-check-postcode" placeholder="<?php echo __('Enter a postcode / suburb to check stock levels'); ?>"/>
+    <input type="hidden" id="baseurl" value='<?php echo $block->getBaseUrl(); ?>' />
+</div>
+<div id="autocomplete-suggestion"></div>
+<div id="stock-check-result"></div>
+<script type="text/x-magento-init">
+    {
+        "#stock-check-postcode": {
+            "Temando_Temando/js/stockcheck/stockcheckautocomplete" : {}
+        }
+    }
+</script>

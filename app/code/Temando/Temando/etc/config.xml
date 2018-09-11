@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<config>
+    <default>
+        <temando>
+            <general>
+                <sandbox><![CDATA[1]]></sandbox>
+		<client><![CDATA[20420]]></client>
+		<username><![CDATA[TEMANDOTEST]]></username>
+		<password><![CDATA[temandopass1]]></password>
+                <title><![CDATA[Temando]]></title>
+                <payment_type><![CDATA[Account]]></payment_type>
+            </general>
+            <units>
+                <measure><![CDATA[Centimetres]]></measure>
+                <weight><![CDATA[Kilograms]]></weight>
+            </units>
+            <defaults>
+                <class><![CDATA[General Goods]]></class>
+                <subclass><![CDATA[Household Goods]]></subclass>
+                <packaging><![CDATA[0]]></packaging>
+                <fragile><![CDATA[0]]></fragile>
+                <dangerous><![CDATA[0]]></dangerous>
+                <weight><![CDATA[1]]></weight>
+                <length><![CDATA[10]]></length>
+                <width><![CDATA[10]]></width>
+                <height><![CDATA[10]]></height>
+            </defaults>
+            <notify_merchant_new_order>
+                <template>sales_email_order_guest_template</template>
+            </notify_merchant_new_order>
+            <notify_customer_pickup_ready>
+                <template>sales_email_order_guest_template</template>
+            </notify_customer_pickup_ready>
+            <developer>
+                <logs><![CDATA[0]]></logs>
+            </developer>
+            <inventory>
+                <execute_rows><![CDATA[10000]]></execute_rows>
+            </inventory>
+        </temando>
+        <carriers>
+            <temando>
+                <title>Shipping Options</title>
+                <active>1</active>
+                <model>Temando\Temando\Model\Shipping\Carrier\Temando</model>
+                <allowed_methods>54381,54426,54359,54396,54360,54429,54433,54432,54425,54343,54430,54431,54427,54428,54344,54398,54358,54410</allowed_methods>
+                <weightunit>Grams</weightunit>
+                <name>Temando</name>
+                <always_use_defaults>0</always_use_defaults>
+                <specificerrmsg>This shipping method is currently unavailable. If you would like to ship using this shipping method, please contact us.</specificerrmsg>
+                <sallowspecific>1</sallowspecific>
+                <specificcountry>AU</specificcountry>
+                <showmethod></showmethod>
+                <sort_order>0</sort_order>
+            </temando>
+        </carriers>
+        <storepickup>
+            <general>
+                <stock_level>3</stock_level>
+            </general>
+        </storepickup>
+    </default>
+</config>

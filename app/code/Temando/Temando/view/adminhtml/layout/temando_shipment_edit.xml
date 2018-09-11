@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <update handle="editor"/>
+    <head>
+        <css src="Temando_Temando/css/autocomplete.css" />
+        <css src="Temando_Temando/css/temando.css" />
+    </head>
+    <body>
+        <referenceContainer name="content">
+            <block class="Temando\Temando\Block\Adminhtml\Shipment\Edit" name="temando_shipment_edit" template="shipment/edit.phtml"/>
+            <block class="Magento\Framework\View\Element\Template" template="Temando_Temando::autocomplete.phtml" />
+        </referenceContainer>
+    </body>
+</page>

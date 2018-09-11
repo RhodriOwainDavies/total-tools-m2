@@ -1,0 +1,401 @@
+<?php
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+?>
+<?php /** @var $block \Temando\Temando\Block\Adminhtml\Shipment\View */ ?>
+<?php $_shipment = $block->getShipment() ?>
+<?php $_origin = $_shipment->getOrigin() ?>
+<?php $_order = $_shipment->getOrder() ?>
+<?php $_helper = $block->getHelper() ?>
+<?php $origin = $_helper->getOriginOptionArray() ?>
+<?php $shipmentItems = $_shipment->getAllItems() ?>
+<?php $quotes = $_shipment->getQuotes() ?>
+<?php $boxes = $_shipment->getBoxes() ?>
+<?php $bookings = $_shipment->getBookings() ?>
+<?php $relativePdfPath = $_helper->getPickslipDir() . DIRECTORY_SEPARATOR . $_shipment->getPickslipFilename(); ?>
+
+<?php if ($_shipment->getStatus() >= \Temando\Temando\Model\System\Config\Source\Shipment\Status::PICKING): ?>
+    <section class="admin__page-section">
+        <div class="admin__page-section-title">
+            <span class="title"><?php /* @escapeNotVerified */ echo __('Documents') ?></span>
+        </div>
+        <div class="admin__page-section-content">
+            <div class="admin__page-section-item">
+                <table class="admin__table-secondary">
+                    <thead>
+                        <tr>
+                            <th><?php echo __('Document') ?></th>
+                            <th class="a-right"><?php echo __('Created At') ?></th>
+                            <th class="a-right"><?php echo __('Booking ID') ?></th>
+                            <th class="a-right"><?php echo __('Request ID') ?></th>
+                            <th class="a-right"><?php echo __('Consignment Code') ?></th>
+                            <th>&nbsp;</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <?php if (file_exists($relativePdfPath)) : ?>
+                        <tr>
+                            <td><?php echo __('Pickslip') ?></td>
+                            <td class="a-right">-</td>
+                            <td class="a-right">-</td>
+                            <td class="a-right">-</td>
+                            <td class="a-right">-</td>
+                            <td class="a-right"><a href="<?php echo $block->getUrl('*/pickslip', array('shipment' => $_shipment->getShipmentId())); ?>" target="_blank"><?php echo __('Download'); ?></a></td>
+                        </tr>
+                    <?php elseif ($_shipment->getStatus() < \Temando\Temando\Model\System\Config\Source\Shipment\Status::BOOKED) : ?>
+                        <?php
+                        $pickingUrl = $this->getUrl(
+                            'temando/shipment/status',
+                            array(
+                                'id' => $_shipment->getId(),
+                                'status' => \Temando\Temando\Model\System\Config\Source\Shipment\Status::PICKING
+                            )
+                        );
+                        ?>
+                        <tr>
+                            <td colspan="5"><?php echo __('There was a problem creating the Pickslip, please try again');?></td>
+                            <td class="a-right"><a href ="<?php echo $pickingUrl;?>"><?php echo __('Pickslip');?></a></td>
+                        </tr>
+                    <?php endif; ?>
+
+                    <?php
+                    if ($_shipment->getStatus() >= \Temando\Temando\Model\System\Config\Source\Shipment\Status::BOOKED):
+                        if(count($bookings)):
+                            foreach($bookings AS $booking):
+                                if($booking->getLabelDocument()):
+                    ?>
+                                <tr>
+                                    <td><?php echo __('Label') ?></td>
+                                    <td class="a-right"><?php echo $booking->getCreatedAt(); ?></td>
+                                    <td class="a-right"><?php echo $booking->getId(); ?></td>
+                                    <td class="a-right"><?php echo $booking->getRequestId(); ?></td>
+                                    <td class="a-right"><?php echo $booking->getConsignmentCode(); ?></td>
+                                    <td class="a-right"><a href="<?php echo $block->getUrl('*/*/document', array('booking' => $booking->getId(), 'document' => 'label')); ?>" target="_label"><?php echo __('Download'); ?></a></td>
+                                </tr>
+                            <?php
+                            endif;// end if($booking->getLabelDocument()):
+                            if($booking->getConsignmentDocument()):
+                            ?>
+                                <tr>
+                                    <td><?php echo __('Consignment Document') ?></td>
+                                    <td class="a-right"><?php echo $booking->getCreatedAt(); ?></td>
+                                    <td class="a-right"><?php echo $booking->getId(); ?></td>
+                                    <td class="a-right"><?php echo $booking->getRequestId(); ?></td>
+                                    <td class="a-right"><?php echo $booking->getConsignmentCode(); ?></td>
+                                    <td class="a-right"><a href="<?php echo $block->getUrl('*/*/document', array('booking' => $booking->getId(), 'document' => 'consignment')); ?>" target="_label"><?php echo __('Download'); ?></a></td>
+                                </tr>
+                            <?php
+                                endif; //end if($booking->getConsignmentDocument()):
+                            endforeach; //end foreach($bookings AS $booking):
+                        endif;//end if(count($bookings)):
+                    endif;//end if($_shipment->getStatus() >= \Temando\Temando\Model\System\Config\Source\Shipment\Status::BOOKED)
+                    ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+<?php endif; ?>
+<section class="admin__page-section order-view-account-information">
+    <div class="admin__page-section-title">
+        <span class="title"><?php /* @escapeNotVerified */ echo __('Shipment Information') ?></span>
+    </div>
+    <div class="admin__page-section-content">
+        <div class="admin__page-section-item order-information">
+            <div class="admin__page-section-item-title">
+                <span class="title">
+                    <?php echo __('Shipment # %1', $_shipment->getId()); ?>
+                </span>
+            </div>
+            <div class="admin__page-section-item-content">
+                <table class="admin__table-secondary order-information-table">
+                    <tr>
+                        <th><?php /* @escapeNotVerified */ echo __('Shipment Date') ?></th>
+                        <td><?php /* @escapeNotVerified */ echo date('d-m-Y') ?></td>
+                    </tr>
+                    <tr>
+                        <th><?php /* @escapeNotVerified */ echo __('Shipment Status') ?></th>
+                        <td><span id="order_status"><?php /* @escapeNotVerified */ echo $block->getShipmentStatusText() ?></span></td>
+                    </tr>
+                    <tr>
+                        <th><?php /* @escapeNotVerified */ echo __('Order Ref') ?></th>
+                        <td><span><?php /* @escapeNotVerified */ echo $_order->getIncrementId() ?></span></td>
+                    </tr>
+                    <tr>
+                        <th><?php /* @escapeNotVerified */ echo __('Order Created') ?></th>
+                        <td><span><?php /* @escapeNotVerified */ echo $_order->getCreatedAt() ?></span></td>
+                    </tr>
+                    <tr>
+                        <th><?php /* @escapeNotVerified */ echo __('Shipping Description') ?></th>
+                        <td><span><?php /* @escapeNotVerified */ echo $_order->getShippingDescription() ?></span></td>
+                    </tr>
+                    <tr>
+                        <th><?php /* @escapeNotVerified */ echo __('Customer selected quote description') ?></th>
+                        <td><span><?php /* @escapeNotVerified */ echo $_shipment->getCustomerSelectedQuoteDescription() ?></span></td>
+                    </tr>
+
+                    <?php if(false)://if ($block->isSingleStoreMode() == false):?>
+                        <tr>
+                            <th><?php /* @escapeNotVerified */ echo __('Purchased From') ?></th>
+                            <td><?php /* @escapeNotVerified */ echo $block->getOrderStoreName() ?></td>
+                        </tr>
+                    <?php endif; ?>
+                    
+                </table>
+            </div>
+            <hr/>
+            <div class="admin__page-section-item-title">
+                <span class="title">
+                    <?php echo __('Checkout Options'); ?>
+                </span>
+            </div>
+            <div class="admin__page-section-item-content">
+                <table class="admin__table-secondary order-information-table">
+                    <tr>
+                        <th><?php echo __('Destination Type') ?></th>
+                        <td>
+                            <?php echo $block->_type->getOptionLabel($_shipment->getDestinationType()); ?>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th><?php echo __('Authority To Leave') ?></th>
+                        <td>
+                            <span>
+                                <?php echo $_shipment->getDestinationAuthorityToLeave() ? __('Yes') : __('No'); ?>
+                            </span>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="admin__page-section-item order-account-information">
+            <?php /* Destination / Origin Information */?>
+            <div class="admin__page-section-item-title">
+                <span class="title"><?php /* @escapeNotVerified */ echo __('Destination') ?></span>
+            </div>
+            <address class="admin__page-section-item-content">
+                <table class="admin__table-secondary order-information-table">
+                    <tr>
+                        <th><span><?php echo __('Name')?></span></th>
+                        <td><span><?php echo $_shipment->getDestinationContactName()?></span></td>
+                    </tr>
+                    <tr>
+                        <th><span><?php echo __('Company Name')?></span></th>
+                        <td><span><?php echo $_shipment->getDestinationCompanyName()?></span></td>
+                    </tr>
+                    <tr>
+                        <th><span><?php echo __('Street Address')?></span></th>
+                        <td><span><?php echo $_shipment->getDestinationStreet()?></span></td>
+                    </tr>
+                    <tr>
+                        <th><span><?php echo __('City')?></span></th>
+                        <td><span><?php echo $_shipment->getDestinationCity()?></span></td>
+                    </tr>
+                    <tr>
+                        <th><span><?php echo __('Postcode')?></span></th>
+                        <td><span><?php echo $_shipment->getDestinationPostcode()?></span></td>
+                    </tr>
+                    <tr>
+                        <th><span><?php echo __('Region')?></span></th>
+                        <td><span><?php echo $_shipment->getDestinationRegion()?></span></td>
+                    </tr>
+                    <tr>
+                        <th><span><?php echo __('Country')?></span></th>
+                        <td><span><?php echo $_shipment->getDestinationCountry()?></span></td>
+                    </tr>
+                    <tr>
+                        <th><span><?php echo __('Phone')?></span></th>
+                        <td><span><?php echo $_shipment->getDestinationPhone()?></span></td>
+                    </tr>
+                    <tr>
+                        <th><span><?php echo __('Email')?></span></th>
+                        <td><span><?php echo $_shipment->getDestinationEmail()?></span></td>
+                    </tr>
+                </table>
+            </address>
+            <hr/>
+            <div class="admin__page-section-item-title">
+                <span class="title"><?php /* @escapeNotVerified */ echo __('Origin') ?></span>
+            </div>
+            <table class="admin__table-secondary order-information-table">
+                <tr>
+                    <th><span><?php echo __('Store')?></span></th>
+                    <td><span><?php echo $origin[$_shipment->getOriginId()] ?></span></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</section>
+
+<section class="admin__page-section">
+    <div class="admin__page-section-title">
+        <span class="title"><?php /* @escapeNotVerified */ echo __('Items Ordered') ?></span>
+    </div>
+    <div class="admin__page-section-content">
+        <div class="admin__page-section-item">
+            <table class="admin__table-secondary">
+                <thead>
+                    <tr>
+                        <th><?php echo __('Product') ?></th>
+                        <th><?php echo __('SKU') ?></th>
+                        <th><?php echo __('Qty') ?></th>
+                        <th><?php echo __('Article Value (' . $block->getStoreCurrencyCode()) . ')' ?></th>
+                        <th><?php echo __('Availability Code');?></th>
+                        <th><?php echo __('Fragile') ?></th>
+                        <th><?php echo __('Dangerous') ?></th>
+                        <th><?php echo __('Weight') ?></th>
+                        <th><?php echo __('Length') ?></th>
+                        <th><?php echo __('Width') ?></th>
+                        <th><?php echo __('Height') ?></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php if(count($shipmentItems)): ?>
+                        <?php foreach($shipmentItems AS $item):?>
+                            <?php
+                            $product = $_helper->getCatalogProduct($item);
+                            if ($product) :
+                                $className = "";
+
+                                if ($item->getStatus() == \Temando\Temando\Model\System\Config\Source\Shipment\Status::BACK_ORDER) {
+                                    $className = "back-order-product";
+                                }
+                         ?>
+                        <tr class="<?php echo $className;?>">
+                            <td><?php echo $product->getName() ?></td>
+                            <td><?php echo $item->getSku() ?></td>
+                            <td><?php echo __('Ordered') . ': ' . $item->getQtyOrdered() ?></td>
+                            <td><?php echo $_helper->getCurrentCurrencySymbol() . ' ' . $_helper->formatPrice($product->getPrice()) ?></td>
+                            <td><?php echo $product->getAttributeText('stock_availability_code'); ?></td>
+                            <td><?php echo $product->getShippingFragile() ? 'Yes' : 'No'; ?></td>
+                            <td><?php echo $product->getShippingDangerous() ? 'Yes' : 'No'; ?></td>
+                            <td><?php echo sprintf('%.2f', $_helper->getItemWeight($product)) . ' ' . $_helper->getWeightUnitText(); ?></td>
+                            <td><?php echo sprintf('%.2f', $_helper->getItemLength($product))  . ' ' . $_helper->getMeasureUnitText(); ?></td>
+                            <td><?php echo sprintf('%.2f', $_helper->getItemWidth($product))  . ' ' . $_helper->getMeasureUnitText(); ?></td>
+                            <td><?php echo sprintf('%.2f', $_helper->getItemHeight($product))  . ' ' . $_helper->getMeasureUnitText(); ?></td>
+                        </tr>
+                                <?php else : ?>
+                        <tr>
+                            <td colspan="11"><?php echo __("A product with this sku '%1' no longer exists", $item->getSku());?></td>
+                        </tr>
+                                <?php endif; ?>
+                        <?php endforeach;?>
+                    <?php endif; ?>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</section>
+
+<section class="admin__page-section">
+    <div class="admin__page-section-title">
+        <span class="title"><?php /* @escapeNotVerified */ echo __('Boxes to ship') ?></span>
+    </div>
+    <div class="admin__page-section-content">
+        <div class="admin__page-section-item">
+            <table class="admin__table-secondary">
+                <thead>
+                <tr>
+                    <th><?php echo __('Comment') ?></th>
+                    <!-- th><?php echo __('Packaging') ?></th -->
+                    <th><?php echo __('Fragile') ?></th>
+                    <th><?php echo __('Dangerous') ?></th>
+                    <th><?php echo __('Qty') ?></th>
+                    <th><?php echo __('Value') ?></th>
+                    <th><?php echo __('Weight') ?></th>
+                    <th><?php echo __('Length') ?></th>
+                    <th><?php echo __('Width') ?></th>
+                    <th><?php echo __('Height') ?></th>
+                </tr>
+                </thead>
+                <tbody>
+                <?php foreach($boxes AS $box):?>
+                    <tr>
+                        <td><?php echo $box->getComment() ?></td>
+                        <!-- td><?php echo $box->getPackaging() ?></td -->
+                        <td><?php echo $box->getFragile() ? 'Yes' : 'No'; ?></td>
+                        <td><?php echo $box->getDangerous() ? 'Yes' : 'No'; ?></td>
+                        <td><?php echo $box->getQty(); ?></td>
+                        <td><?php echo $_helper->getCurrentCurrencySymbol() . ' ' . $_helper->formatPrice($box->getValue()) ?></td>
+                        <td><?php echo sprintf('%.2f', $box->getWeight()) . ' ' . $_helper->getWeightUnitText(); ?></td>
+                        <td><?php echo sprintf('%.2f', $box->getLength()) . ' ' . $_helper->getMeasureUnitText(); ?></td>
+                        <td><?php echo sprintf('%.2f', $box->getWidth()) . ' ' . $_helper->getMeasureUnitText(); ?></td>
+                        <td><?php echo sprintf('%.2f', $box->getHeight()) . ' ' . $_helper->getMeasureUnitText(); ?></td>
+                    </tr>
+                <?php endforeach;?>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</section>
+
+<?php if($_shipment->getStatus()<\Temando\Temando\Model\System\Config\Source\Shipment\Status::BOOKED
+            && count($quotes)
+        ): ?>
+<section class="admin__page-section">
+    <div class="admin__page-section-title">
+        <span class="title"><?php /* @escapeNotVerified */ echo __('Shipping Quotes') ?></span>
+    </div>
+    <div class="admin__page-section-content">
+        <div class="admin__page-section-item">
+            <table class="admin__table-secondary">
+                <thead>
+                    <tr>
+                        <th><?php echo __('Carrier') ?></th>
+                        <th><?php echo __('Delivery Method') ?></th>
+                        <th><?php echo __('ETA') ?></th>
+                        <th><?php echo __('Cost') ?></th>
+                        <th><?php echo __('Notes') ?></th>
+                        <th><?php echo __('Make Booking') ?></th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                <?php foreach($quotes AS $quote):?>
+                    <?php
+                    if (
+                        $_helper->_isAllowedAction('Temando_Temando::temando_shipments_view_all_quotes')
+                        ||
+                        ($_shipment->getCustomerSelectedQuoteId()==$quote->getId())
+                    ) :
+                        $carrier = $_helper->getCarrierByTemandoId($quote->getCarrierId());
+                    ?>
+                    <tr>
+                        <td><?php echo $carrier->getCompanyName(); ?> </td>
+                        <td><?php echo $quote->getDeliveryMethod(); ?></td>
+                        <td><?php echo $quote->getEtaDescription(); ?></td>
+                        <td><?php echo $_helper->getCurrentCurrencySymbol() . ' ' . $_helper->formatPrice($quote->getTotalPrice()); ?></td>
+                        <td>
+                        <?php
+                            if ($_shipment->getCustomerSelectedQuoteId()==$quote->getId()) :
+                                echo __('Customer Selected Quote');
+                            endif;
+                        ?>
+                        </td>
+                        <td>
+                            <?php 
+                            if ($_helper->checkShipmentActionPermission(
+                                $_shipment,
+                                \Temando\Temando\Model\System\Config\Source\Shipment\Status::BOOKED
+                            )) : ?>
+                            <a href="<?php echo $block->getUrl('*/*/book', array('shipment' => $_shipment->getId(), 'quote' => $quote->getData('quote_id'))); ?>"><?php echo __('Book Quote'); ?></a>
+                            <?php endif; ?>
+                        </td>
+                    </tr>
+                    <?php endif; ?>
+                <?php endforeach;?>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+<?php endif; ?>

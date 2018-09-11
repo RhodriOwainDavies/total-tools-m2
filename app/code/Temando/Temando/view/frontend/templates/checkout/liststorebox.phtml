@@ -1,0 +1,120 @@
+<?php
+
+/**
+ * @category    Temando
+ * @package     Temando_Temando
+ */
+
+/** @var \Temando\Temando\Block\ListStore\ListStoreBox $block */
+?>
+<div data-mage-init='{"Magestore_Storepickup/js/direction": {}}' class="option-direction custom-popup col-xs-12"
+     style="display: none;padding: 0;">
+    <ul class="vertical text-center">
+        <li class="travel car active" data-traveling="DRIVING"><span>A</span></li>
+        <li class="travel bus" data-traveling="TRANSIT"><span>A</span></li>
+        <li class="travel walk" data-traveling="WALKING"><span>A</span></li>
+        <li class="travel bicycle" data-traveling="BICYCLING"><span>A</span></li>
+    </ul>
+    <div id="directions-tool" class="col-xs-12 directions-tool">
+        <div class="widget-directions-searchbox-handle">
+            <div class="widget-directions-icon waypoint-handle"><label for="origin">A</label></div>
+            <div class="widget-directions-icon waypoint-to"><label for="origin">C</label></div>
+            <div class="widget-directions-icon waypoint-bullet"><label for="origin">B</label></div>
+        </div>
+        <div class="form-inputs">
+            <input class="form-control origin originA start" type="text" name="originA" isStart="true"
+                   autocomplete="off">
+            <input class="form-control origin originB end" readonly="true" type="text" name="originB" autocomplete="off"
+                   value="">
+        </div>
+        <div class="widget-directions-right-overlay">
+            <button type="button" onclick="" class="swap-locations"
+                    title="<?php echo __('Swap locations A-B') ?>"><?php echo __('Swap locations A-B') ?></button>
+        </div>
+        <div class="directions-panel"></div>
+    </div>
+    <div class="box-input col-xs-12">
+        <button class="get-direction action primary pull-right" id="get_direction"
+                title="<?php echo __('Get Directions') ?>"
+                type="submit">
+            <span><?php echo __('Go') ?></span>
+        </button>
+    </div>
+</div>
+<div class="list-store-box" style="display: none;">
+    <div class="list-store col-xs-12">
+        <ul class="list-store-container disable-ul"
+            data-mage-init='{
+                "Magestore_Storepickup/js/checkout/liststorecheckout": {
+                    "defaultStoreIcon": "<?php echo $block->getViewFileUrl('Magestore_Storepickup::images/map_with_pin.png') ?>",
+                    "mediaUrlImage": "<?php echo $block->getMediaUrlImage() ?>",
+                    "distanceUnit": "<?php echo $block->getSystemConfig()->getDistanceUnit() ?>"
+                }
+            }'>
+        </ul>
+    </div>
+    <div id="pagination-list"
+         class="pagination-list pagination-wrapper text-center col-full"
+         data-mage-init='{
+            "Magestore_Storepickup/js/pagination": {
+
+            }
+         }'
+    >
+    </div>
+</div>
+
+<script id="popup-store-template" class="popup-store-template" type="text/x-magento-template">
+    <div class="popup-store store-item store-<%- data.origin_id %>"
+         title="<%- data.name %>"
+         data-store-id="<%- data.origin_id %>"
+         data-store-name="<%- data.name %>"
+         data-store-index="<%- data.index %>"
+         data-latitude="<%- data.latitude %>"
+         data-longitude="<%- data.longitude %>"
+         data-address="<%- data.street %>"
+    >
+        <div class="store-content">
+            <!--<div class="col-sm-3 col-xs-3 tag-store">
+                <img class="img-responsive" width="70px" src="<%- data.imgSrc %>" alt="<%- data.name %>"> 
+                <p class="text-center"><%- data.distanceText %></p>
+            </div>-->
+            <div class="col-sm-12 col-xs-12 tag-content">
+                <h4><%- data.name %></h4>
+                <p class="address-store"><%- data.street %></p>
+                <p class="phone-store"><%- data.contact_phone_1 %></p>
+                <p>
+                    <span class="btn-link apply"><?php echo __('PICK UP FROM'); ?> <%- data.name %></span>
+                    <p><%- data.stock_level_message %></p>
+                </p>
+            </div>
+        </div>
+    </div>
+</script>
+<script id="store-template" class="store-template" type="text/x-magento-template">
+    <li class="show-tag-li store-item store-<%- data.origin_id %>"
+        title="<%- data.name %>"
+        data-store-id="<%- data.origin_id %>"
+        data-store-index="<%- data.index %>"
+        data-latitude="<%- data.latitude %>"
+        data-longitude="<%- data.longitude %>"
+        data-address="<%- data.street %>"
+    >
+        <div class="">
+            <div class="col-sm-3 col-xs-3 tag-store">
+                <img style="min-height: 50px; width: auto;" src="<%- data.imgSrc %>" alt="<%- data.name %>">
+                <p class="text-center"><%- data.distanceText %></p>
+            </div>
+            <div class="col-sm-9 col-xs-9 tag-content">
+                <h4><%- data.name
+                        %></h4>
+                <p class="address-store"><%- data.street %></p>
+                <p class="phone-store"><%- data.contact_phone_1 %></p>
+                <p>
+                    <span class="btn-link street-view">Street View</span>
+                    <span class="btn-link direction">Direction</span>
+                </p>
+            </div>
+        </div>
+    </li>
+</script>

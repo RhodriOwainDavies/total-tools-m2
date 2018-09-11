@@ -1,0 +1,4 @@
+#stock-check-postcode { width: 354px; }
+#stock-check-country-id { width: 60px; }
+#stock-check-result { border: 1px solid #cccccc; cursor:pointer; }
+.stock-check-result-item.odd { background-color: #eeeeee; }

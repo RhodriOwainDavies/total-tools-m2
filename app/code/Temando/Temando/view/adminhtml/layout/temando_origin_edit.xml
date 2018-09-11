@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+    <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  layout="admin-2columns-left" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <update handle="editor"/>
+    <head>
+        <css src="Temando_Temando/css/autocomplete.css" />
+        <css src="Magestore_Storepickup::css/gallery.css"/>
+    </head>
+    <body>
+        <referenceContainer name="content">
+            <block class="Temando\Temando\Block\Adminhtml\Origin\Edit" name="temando_origin_edit"/>
+            <block class="Magento\Framework\View\Element\Template" template="Temando_Temando::autocomplete.phtml" />
+        </referenceContainer>
+        
+        <referenceContainer name="left">
+            <block class="Temando\Temando\Block\Adminhtml\Origin\Edit\Tabs" name="origin_edit_tabs">
+                <block class="Temando\Temando\Block\Adminhtml\Origin\Edit\Tab\GeneralTab" name="origin_edit_tab_general" />
+                <block class="Temando\Temando\Block\Adminhtml\Origin\Edit\Tab\ContactTab" name="origin_edit_tab_contact"/>
+                <block class="Temando\Temando\Block\Adminhtml\Origin\Edit\Tab\TemandoProfileTab" name="origin_edit_tab_temando_profile"/>
+                <block class="Temando\Temando\Block\Adminhtml\Origin\Edit\Tab\UserPermissionsTab" name="origin_edit_tab_user_permissions" />
+                <block class="Temando\Temando\Block\Adminhtml\Origin\Edit\Tab\ScheduleTab" name="origin_edit_tab_schedule"/>
+                <block class="Temando\Temando\Block\Adminhtml\Origin\Edit\Tab\ImageGalleryTab" name="origin_edit_tab_imagegallery"/>
+                <block class="Temando\Temando\Block\Adminhtml\Origin\Edit\Tab\GmapTab" name="origin_edit_tab_gmap"/>
+                <block class="Temando\Temando\Block\Adminhtml\Origin\Edit\Tab\FallbackInventoryTab" name="origin_edit_tab_fallback_inventory" />    
+            </block>
+        </referenceContainer>
+    </body> 
+</page>

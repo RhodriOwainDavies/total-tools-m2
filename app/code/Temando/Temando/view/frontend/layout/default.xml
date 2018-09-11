@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Remove all layout from Magestore: view / frontend / layout /default.xml
+
+ * @category    Temando
+ * @package     Temando_Temando
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="top.links">
+            <block class="Magestore\Storepickup\Block\Link" name="storepickup-top-link" remove="true" />
+        </referenceBlock>
+        <referenceBlock name="header.links">
+            <block class="Magestore\Storepickup\Block\Link" name="storepickup-header-link" remove="true" />
+        </referenceBlock>
+    </body>
+</page>

@@ -1,0 +1,11 @@
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <update handle="editor"/>
+    <head>
+        <css src="Temando_Temando/css/temando.css" />
+    </head>
+    <body>
+        <referenceContainer name="content">
+            <block class="Temando\Temando\Block\Adminhtml\Pickup\View" name="temando_pickup_view" template="pickup/view/info.phtml"/>
+        </referenceContainer>
+    </body>
+</page>
